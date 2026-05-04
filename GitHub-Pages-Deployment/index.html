@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Deployment | Ayoub Soudani</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --accent-color: #00ff41; /* Terminal Green */
+            --border-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .container {
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 10px 10px 0px #1a1a1a;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .status {
+            color: var(--accent-color);
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #888;
+        }
+
+        .timestamp {
+            margin-top: 30px;
+            font-size: 0.7rem;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hello, GitHub Actions!</h1>
+        
+        <div class="status">
+            [ DEPLOYMENT: SUCCESSFUL ]
+        </div>
+
+        <p>
+            This static site was automatically deployed via a 
+            GitHub Actions CI/CD pipeline.
+        </p>
+
+        <div class="timestamp">
+            SYSTEM_STATUS: STABLE<br>
+            LOCATION: GITHUB_PAGES_INFRASTRUCTURE
+        </div>
+    </div>
+
+</body>
+</html>
