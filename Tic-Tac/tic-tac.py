@@ -1,5 +1,5 @@
 from random import randrange
-
+import sys
 
 def display_board(board):
     horizontal_border = "+-------+-------+-------+"
@@ -13,13 +13,6 @@ def display_board(board):
     print(horizontal_border)
 
 
-def checkBox(board, num): 
-    x = int((num - 1)/ 3)
-    y = int((num- 1) % 3)
-    if board[x][y] == 'X' or board[x][y] == 'O':
-        return False, x, y
-    condition = int(board[x][y]) == int(num)
-    return  condition, x, y
 
 
 def make_list_of_free_fields(board):
@@ -33,35 +26,31 @@ def make_list_of_free_fields(board):
 
 def enter_move(board):
     while True:
-            try:
-                Input = input("Enter your move (1-9): ")
-                
-                if len(Input) != 1 or Input < '1' or Input > '9':
-                    print("The number must be greater than 0 and less than 10.")
-                    continue
-                
-                index = ord(Input) - 48
-                
-                condition, x, y = checkBox(board, index)
-                
-                if condition == True:
-                    board[x][y] = 'O'
-                    break
-                else:
-                    print("Already filled. Try again.")
-
-            except TypeError:
-                print("The input must be a Number from 1 to 9.")
-            except:
-                print("Please enter a Valid input.")
+        user_input = input("Enter your move (1-9) or EXIT to exit: ").strip().upper()
+        
+        if user_input == "EXIT":
+            print("Thanks for playing!")
+            sys.exit()
+            
+        if not user_input.isdigit() or not ('1' <= user_input <= '9'):
+            print("Invalid input. Please enter a single number from 1 to 9.")
+            continue
+            
+        num = int(user_input)
+        x = (num - 1) // 3
+        y = (num - 1) % 3
+        
+        if (x, y) in make_list_of_free_fields(board):
+            board[x][y] = 'O'
+            break
+        else:
+            print("That square is already filled. Try again.")
+            
+    display_board(board)
 
 
 
 def victory_for(board, sign):
-    display_board(board)
-    if len(make_list_of_free_fields(board)) == 0:
-        print("It's a tie!")
-        exit()
     for row in board:
         if row[0] == row[1] == row[2] == sign:
             return True
@@ -77,33 +66,43 @@ def victory_for(board, sign):
 
 
 def draw_move(board):
-    global firstMove
-    if firstMove == True:
-        board[1][1] = 'X'
-        firstMove = False
-    else:
-        free = make_list_of_free_fields(board)
-        if (len(free) > 0):
-            index = randrange(len(free))
-            x = free[index][0]
-            y = free[index][1]
-            board[x][y] = 'X'
+
+    print("Computer's turn:")
+    free = make_list_of_free_fields(board)
+    if (len(free) > 0):
+        index = randrange(len(free))
+        x = free[index][0]
+        y = free[index][1]
+        board[x][y] = 'X'
+    display_board(board)
 
 
 
 firstMove = True
 
-board = [['1', '2', '3'],['4', '5', '6'],['7', '8', '9']]
+board = [['1', '2', '3'],
+         ['4', '5', '6'],
+         ['7', '8', '9']]
+
+board[1][1] = 'X'
 
 while True:
-    draw_move(board)
-
-    if victory_for(board, 'X'):
-        print("Computer won!")
-        break
-
     enter_move(board)
 
     if victory_for(board, 'O'):
         print("You won!")
+        break
+    
+    if not make_list_of_free_fields(board):
+        print("It's a tie!")
+        break
+
+    draw_move(board)
+    
+    if victory_for(board, 'X'):
+        print("Computer won!")
+        break
+
+    if not make_list_of_free_fields(board):
+        print("It's a tie!")
         break
